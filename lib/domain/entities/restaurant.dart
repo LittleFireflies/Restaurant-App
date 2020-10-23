@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:restaurant_app/model/menus.dart';
+import 'package:restaurant_app/domain/entities/menus.dart';
 
 RestaurantResponse restaurantResponseFromMap(String str) =>
     RestaurantResponse.fromMap(json.decode(str));

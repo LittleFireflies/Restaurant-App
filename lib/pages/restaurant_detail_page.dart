@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/common/styles.dart';
-import 'package:restaurant_app/model/restaurant.dart';
+import 'package:restaurant_app/domain/entities/restaurant.dart';
 import 'package:restaurant_app/pages/menu_sheet.dart';
 
 class RestaurantDetailPage extends StatelessWidget {
