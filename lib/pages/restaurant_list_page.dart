@@ -12,7 +12,7 @@ class RestaurantListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Restaurant List'),
+        title: Text('Restaurant App'),
       ),
       body: FutureBuilder<String>(
         future: DefaultAssetBundle.of(context)
