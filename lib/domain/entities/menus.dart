@@ -1,4 +1,6 @@
-class Menus {
+import 'package:equatable/equatable.dart';
+
+class Menus extends Equatable {
   Menus({
     this.foods,
     this.drinks,
@@ -16,9 +18,12 @@ class Menus {
         "foods": List<dynamic>.from(foods.map((x) => x.toMap())),
         "drinks": List<dynamic>.from(drinks.map((x) => x.toMap())),
       };
+
+  @override
+  List<Object> get props => [foods, drinks];
 }
 
-class Menu {
+class Menu extends Equatable {
   Menu({
     this.name,
   });
@@ -32,4 +37,7 @@ class Menu {
   Map<String, dynamic> toMap() => {
         "name": name,
       };
+
+  @override
+  List<Object> get props => [name];
 }
