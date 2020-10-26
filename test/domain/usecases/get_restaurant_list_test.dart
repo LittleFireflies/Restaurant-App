@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:restaurant_app/domain/entities/restaurant.dart';
@@ -20,13 +21,13 @@ void main() {
   test('should get restaurant list from repository', () async {
     // arrange
     when(repository.getRestaurantList())
-        .thenAnswer((realInvocation) async => testRestaurants);
+        .thenAnswer((realInvocation) async => Right(testRestaurants));
 
     // act
     final result = await usecase.execute();
 
     // assert
-    expect(result, testRestaurants);
+    expect(result, Right(testRestaurants));
     verify(repository.getRestaurantList());
     verifyNoMoreInteractions(repository);
   });

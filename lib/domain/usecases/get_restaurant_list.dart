@@ -1,3 +1,5 @@
+import 'package:dartz/dartz.dart';
+import 'package:restaurant_app/common/failures.dart';
 import 'package:restaurant_app/domain/entities/restaurant.dart';
 import 'package:restaurant_app/domain/repositories/RestaurantRepository.dart';
 
@@ -6,7 +8,7 @@ class GetRestaurantList {
 
   GetRestaurantList(this.repository);
 
-  Future<RestaurantResponse> execute() async {
+  Future<Either<Failure, RestaurantResponse>> execute() async {
     return await repository.getRestaurantList();
   }
 }
