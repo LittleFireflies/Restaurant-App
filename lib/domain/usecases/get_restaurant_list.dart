@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:restaurant_app/common/failures.dart';
 import 'package:restaurant_app/domain/entities/restaurant.dart';
-import 'package:restaurant_app/domain/repositories/RestaurantRepository.dart';
+import 'package:restaurant_app/domain/repositories/restaurant_repository.dart';
 
 class GetRestaurantList {
   final RestaurantRepository repository;
