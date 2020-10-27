@@ -1,8 +1,11 @@
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mockito/mockito.dart';
+import 'package:restaurant_app/common/exception.dart';
 import 'package:restaurant_app/data/datasources/restaurant_remote_data_source.dart';
 import 'package:restaurant_app/domain/entities/restaurant.dart';
 
@@ -42,6 +45,18 @@ void main() {
       final result = await dataSource.getRestaurantList();
       // assert
       expect(result, testRestaurantResponse);
+    });
+
+    test(
+        'should throw a ServerException when the response code is 404 or other',
+        () async {
+      // arrange
+      when(mockHttpClient.get(any)).thenAnswer(
+          (realInvocation) async => http.Response('Something went wrong', 404));
+      // act
+      final call = dataSource.getRestaurantList;
+      // assert
+      expect(() => call(), throwsA(isInstanceOf<ServerException>()));
     });
   });
 }
