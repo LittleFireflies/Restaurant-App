@@ -16,7 +16,7 @@ void main() {
     usecase = GetRestaurantList(repository);
   });
 
-  final testRestaurants = RestaurantResponse(restaurants: []);
+  final testRestaurants = <Restaurant>[];
 
   test('should get restaurant list from repository', () async {
     // arrange

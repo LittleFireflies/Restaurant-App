@@ -35,7 +35,7 @@ class _RestaurantListPageState extends State<RestaurantListPage> {
             child: CircularProgressIndicator(),
           );
         } else if (state is RestaurantLoaded) {
-          final restaurants = state.restaurantResponse.restaurants;
+          final restaurants = state.restaurants;
           return ListView.builder(
             itemCount: restaurants.length,
             itemBuilder: (context, index) {

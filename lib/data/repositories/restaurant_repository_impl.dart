@@ -17,12 +17,12 @@ class RestaurantRepositoryImpl implements RestaurantRepository {
   });
 
   @override
-  Future<Either<Failure, RestaurantResponse>> getRestaurantList() async {
+  Future<Either<Failure, List<Restaurant>>> getRestaurantList() async {
     networkInfo.isConnected;
     try {
       final remoteRestaurantResponse =
           await remoteDataSource.getRestaurantList();
-      return Right(remoteRestaurantResponse);
+      return Right(remoteRestaurantResponse.restaurants);
     } on ServerException {
       return Left(ServerFailure());
     }

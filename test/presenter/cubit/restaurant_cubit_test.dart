@@ -20,7 +20,7 @@ void main() {
   });
 
   group('GetRestaurantList', () {
-    final testRestaurants = RestaurantResponse(restaurants: []);
+    final testRestaurants = <Restaurant>[];
 
     test('should get data from the use case', () async {
       // arrange

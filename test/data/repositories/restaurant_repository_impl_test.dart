@@ -32,6 +32,8 @@ void main() {
     test('should check if the device is online', () {
       // arrange
       when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+      when(mockRemoteDataSource.getRestaurantList())
+          .thenAnswer((realInvocation) async => testRestaurantResponse);
       // act
       repository.getRestaurantList();
       // assert
@@ -53,7 +55,7 @@ void main() {
         final result = await repository.getRestaurantList();
         // assert
         verify(mockRemoteDataSource.getRestaurantList());
-        expect(result, equals(Right(testRestaurantResponse)));
+        expect(result, equals(Right(testRestaurantResponse.restaurants)));
       });
 
       test(

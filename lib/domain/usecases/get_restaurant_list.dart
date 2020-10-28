@@ -8,7 +8,7 @@ class GetRestaurantList {
 
   GetRestaurantList(this.repository);
 
-  Future<Either<Failure, RestaurantResponse>> execute() async {
+  Future<Either<Failure, List<Restaurant>>> execute() async {
     return await repository.getRestaurantList();
   }
 }
