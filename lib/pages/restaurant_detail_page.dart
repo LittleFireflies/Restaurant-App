@@ -110,7 +110,8 @@ class RestaurantDetailPage extends StatelessWidget {
               children: [
                 Hero(
                   tag: 'image_${restaurant.name}',
-                  child: Image.network(restaurant.pictureId),
+                  child: Image.network(
+                      'https://restaurant-api.dicoding.dev/images/small/${restaurant.pictureId}'),
                 ),
                 SafeArea(
                   child: IconButton(

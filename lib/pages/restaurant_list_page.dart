@@ -1,12 +1,24 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restaurant_app/common/styles.dart';
 import 'package:restaurant_app/domain/entities/restaurant.dart';
 import 'package:restaurant_app/pages/restaurant_detail_page.dart';
+import 'package:restaurant_app/presenter/cubit/restaurant_cubit.dart';
 
-class RestaurantListPage extends StatelessWidget {
+class RestaurantListPage extends StatefulWidget {
   static const routeName = '/restaurant_list';
+
+  @override
+  _RestaurantListPageState createState() => _RestaurantListPageState();
+}
+
+class _RestaurantListPageState extends State<RestaurantListPage> {
+  @override
+  void initState() {
+    super.initState();
+    final cubit = context.bloc<RestaurantCubit>();
+    cubit.getRestaurant();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,29 +26,27 @@ class RestaurantListPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Restaurant App'),
       ),
-      body: FutureBuilder<String>(
-        future: DefaultAssetBundle.of(context)
-            .loadString('assets/local_restaurant.json'),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState != ConnectionState.done) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          } else {
-            final json = jsonDecode(snapshot.data);
-            final restaurantResponse = RestaurantResponse.fromMap(json);
-            final restaurants = restaurantResponse.restaurants;
-
-            return ListView.builder(
-              itemCount: restaurants.length,
-              itemBuilder: (context, index) {
-                final restaurant = restaurants[index];
-                return RestaurantItem(restaurant);
-              },
-            );
-          }
-        },
-      ),
+      body: BlocBuilder<RestaurantCubit, RestaurantState>(
+          builder: (context, state) {
+        if (state is RestaurantInitial) {
+          return Text('Initial');
+        } else if (state is RestaurantLoading) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        } else if (state is RestaurantLoaded) {
+          final restaurants = state.restaurantResponse.restaurants;
+          return ListView.builder(
+            itemCount: restaurants.length,
+            itemBuilder: (context, index) {
+              final restaurant = restaurants[index];
+              return RestaurantItem(restaurant);
+            },
+          );
+        } else {
+          return Text('Error');
+        }
+      }),
     );
   }
 }
@@ -60,7 +70,7 @@ class RestaurantItem extends StatelessWidget {
               child: Hero(
                 tag: 'image_${restaurant.name}',
                 child: Image.network(
-                  restaurant.pictureId,
+                  'https://restaurant-api.dicoding.dev/images/small/${restaurant.pictureId}',
                   width: 100,
                 ),
               ),
