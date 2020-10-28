@@ -10,8 +10,12 @@ class Menus extends Equatable {
   List<Menu> drinks;
 
   factory Menus.fromMap(Map<String, dynamic> json) => Menus(
-        foods: List<Menu>.from(json["foods"].map((x) => Menu.fromMap(x))),
-        drinks: List<Menu>.from(json["drinks"].map((x) => Menu.fromMap(x))),
+        foods: json != null
+            ? List<Menu>.from(json["foods"].map((x) => Menu.fromMap(x)))
+            : [],
+        drinks: json != null
+            ? List<Menu>.from(json["drinks"].map((x) => Menu.fromMap(x)))
+            : [],
       );
 
   Map<String, dynamic> toMap() => {
