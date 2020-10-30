@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
 import 'package:restaurant_app/common/exception.dart';
@@ -25,6 +27,8 @@ class RestaurantRepositoryImpl implements RestaurantRepository {
       return Right(remoteRestaurantResponse.restaurants);
     } on ServerException {
       return Left(ServerFailure());
+    } on SocketException {
+      return Left(ConnectionFailure());
     }
   }
 
@@ -37,6 +41,8 @@ class RestaurantRepositoryImpl implements RestaurantRepository {
       return Right(remoteRestaurantResponse.restaurant);
     } on ServerException {
       return Left(ServerFailure());
+    } on SocketException {
+      return Left(ConnectionFailure());
     }
   }
 }

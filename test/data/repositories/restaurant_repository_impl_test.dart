@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
@@ -79,6 +81,18 @@ void main() {
         expect(result, equals(Left(ServerFailure())));
       });
     });
+
+    test('should return connection failure when the device is offline',
+        () async {
+      // arrange
+      when(mockRemoteDataSource.getRestaurantList())
+          .thenThrow(SocketException("Can't connect to the network"));
+      // act
+      final result = await repository.getRestaurantList();
+      // assert
+      verify(mockRemoteDataSource.getRestaurantList());
+      expect(result, equals(Left(ConnectionFailure())));
+    });
   });
 
   group('getRestaurantDetail', () {
@@ -122,6 +136,18 @@ void main() {
         verify(mockRemoteDataSource.getRestaurantDetail(testRestaurantId));
         expect(result, equals(Left(ServerFailure())));
       });
+    });
+
+    test('should return connection failure when the device is offline',
+        () async {
+      // arrange
+      when(mockRemoteDataSource.getRestaurantDetail(testRestaurantId))
+          .thenThrow(SocketException("Can't connect to the network"));
+      // act
+      final result = await repository.getRestaurantDetail(testRestaurantId);
+      // assert
+      verify(mockRemoteDataSource.getRestaurantDetail(testRestaurantId));
+      expect(result, equals(Left(ConnectionFailure())));
     });
   });
 }

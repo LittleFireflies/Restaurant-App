@@ -114,7 +114,7 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<RestaurantCubit, RestaurantState>(
+    return BlocConsumer<RestaurantCubit, RestaurantState>(
       builder: (context, state) {
         if (state is RestaurantInitial) {
           return Text('initial');
@@ -162,6 +162,15 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
           );
         } else {
           return Text('Error');
+        }
+      },
+      listener: (context, state) {
+        if (state is RestaurantError) {
+          Scaffold.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.message),
+            ),
+          );
         }
       },
     );

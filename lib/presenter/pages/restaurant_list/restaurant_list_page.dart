@@ -26,7 +26,7 @@ class _RestaurantListPageState extends State<RestaurantListPage> {
       appBar: AppBar(
         title: Text('Restaurant App'),
       ),
-      body: BlocBuilder<RestaurantsCubit, RestaurantsState>(
+      body: BlocConsumer<RestaurantsCubit, RestaurantsState>(
         builder: (context, state) {
           if (state is RestaurantsInitial) {
             return Text('Initial');
@@ -45,6 +45,15 @@ class _RestaurantListPageState extends State<RestaurantListPage> {
             );
           } else {
             return Text('Error');
+          }
+        },
+        listener: (context, state) {
+          if (state is RestaurantsError) {
+            Scaffold.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.message),
+              ),
+            );
           }
         },
       ),

@@ -2,6 +2,7 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+import 'package:restaurant_app/common/constants_messages.dart';
 import 'package:restaurant_app/common/failures.dart';
 import 'package:restaurant_app/domain/entities/restaurant.dart';
 import 'package:restaurant_app/domain/usecases/get_restaurant_list.dart';
@@ -56,7 +57,7 @@ void main() {
         act: (context) => cubit.getRestaurants(),
         expect: [
           RestaurantsLoading(),
-          RestaurantsError('ServerFailure'),
+          RestaurantsError(SERVER_FAILURE_MESSAGE),
         ]);
   });
 }
