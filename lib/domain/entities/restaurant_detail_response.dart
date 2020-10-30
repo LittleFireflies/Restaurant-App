@@ -1,6 +1,7 @@
+import 'package:equatable/equatable.dart';
 import 'package:restaurant_app/domain/entities/restaurant.dart';
 
-class RestaurantDetailResponse {
+class RestaurantDetailResponse extends Equatable {
   RestaurantDetailResponse({
     this.error,
     this.message,
@@ -23,4 +24,7 @@ class RestaurantDetailResponse {
         "message": message,
         "restaurant": restaurant.toMap(),
       };
+
+  @override
+  List<Object> get props => [error, message, restaurant];
 }
