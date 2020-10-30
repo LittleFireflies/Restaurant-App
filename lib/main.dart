@@ -7,8 +7,8 @@ import 'package:restaurant_app/common/styles.dart';
 import 'package:restaurant_app/data/datasources/restaurant_remote_data_source.dart';
 import 'package:restaurant_app/data/repositories/restaurant_repository_impl.dart';
 import 'package:restaurant_app/domain/usecases/get_restaurant_list.dart';
-import 'package:restaurant_app/pages/restaurant_detail_page.dart';
-import 'package:restaurant_app/pages/restaurant_list_page.dart';
+import 'package:restaurant_app/presenter/pages/restaurant_detail_page.dart';
+import 'package:restaurant_app/presenter/pages/restaurant_list_page.dart';
 import 'package:restaurant_app/presenter/cubit/restaurant_cubit.dart';
 
 void main() {

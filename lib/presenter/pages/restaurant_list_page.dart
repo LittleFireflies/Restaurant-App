@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restaurant_app/common/styles.dart';
 import 'package:restaurant_app/domain/entities/restaurant.dart';
-import 'package:restaurant_app/pages/restaurant_detail_page.dart';
+import 'package:restaurant_app/presenter/pages/restaurant_detail_page.dart';
 import 'package:restaurant_app/presenter/cubit/restaurant_cubit.dart';
 
 class RestaurantListPage extends StatefulWidget {
