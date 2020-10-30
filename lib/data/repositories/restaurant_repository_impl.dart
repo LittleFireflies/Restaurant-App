@@ -29,8 +29,14 @@ class RestaurantRepositoryImpl implements RestaurantRepository {
   }
 
   @override
-  Future<Either<Failure, Restaurant>> getRestaurantDetail(String id) {
-    // TODO: implement getRestaurantDetail
-    throw UnimplementedError();
+  Future<Either<Failure, Restaurant>> getRestaurantDetail(String id) async {
+    networkInfo.isConnected;
+    try {
+      final remoteRestaurantResponse =
+          await remoteDataSource.getRestaurantDetail(id);
+      return Right(remoteRestaurantResponse.restaurant);
+    } on ServerException {
+      return Left(ServerFailure());
+    }
   }
 }
