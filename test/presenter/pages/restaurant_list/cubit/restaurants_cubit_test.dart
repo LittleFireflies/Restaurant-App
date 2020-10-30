@@ -5,18 +5,18 @@ import 'package:mockito/mockito.dart';
 import 'package:restaurant_app/common/failures.dart';
 import 'package:restaurant_app/domain/entities/restaurant.dart';
 import 'package:restaurant_app/domain/usecases/get_restaurant_list.dart';
-import 'package:restaurant_app/presenter/cubit/restaurant_cubit.dart';
+import 'package:restaurant_app/presenter/pages/restaurant_list/cubit/restaurants_cubit.dart';
 
 class MockGetRestaurantList extends Mock implements GetRestaurantList {}
 
 void main() {
-  RestaurantCubit cubit;
+  RestaurantsCubit cubit;
   MockGetRestaurantList mockGetRestaurantList;
 
   setUp(() {
     mockGetRestaurantList = MockGetRestaurantList();
 
-    cubit = RestaurantCubit(mockGetRestaurantList);
+    cubit = RestaurantsCubit(mockGetRestaurantList);
   });
 
   group('GetRestaurantList', () {
@@ -27,36 +27,36 @@ void main() {
       when(mockGetRestaurantList.execute())
           .thenAnswer((realInvocation) async => Right(testRestaurants));
       // act
-      cubit.getRestaurant();
+      cubit.getRestaurants();
       // assert
       verify(mockGetRestaurantList.execute());
     });
 
-    blocTest<RestaurantCubit, RestaurantState>(
+    blocTest<RestaurantsCubit, RestaurantsState>(
       'should emit [Loading, Loaded] when data is gotten succesfully',
       build: () {
         when(mockGetRestaurantList.execute())
             .thenAnswer((_) async => Right(testRestaurants));
         return cubit;
       },
-      act: (cubit) => cubit.getRestaurant(),
+      act: (cubit) => cubit.getRestaurants(),
       expect: [
-        RestaurantLoading(),
-        RestaurantLoaded(testRestaurants),
+        RestaurantsLoading(),
+        RestaurantsLoaded(testRestaurants),
       ],
     );
 
-    blocTest<RestaurantCubit, RestaurantState>(
+    blocTest<RestaurantsCubit, RestaurantsState>(
         'should emit [Loading, Error] when unsuccesful',
         build: () {
           when(mockGetRestaurantList.execute())
               .thenAnswer((realInvocation) async => Left(ServerFailure()));
           return cubit;
         },
-        act: (context) => cubit.getRestaurant(),
+        act: (context) => cubit.getRestaurants(),
         expect: [
-          RestaurantLoading(),
-          RestaurantError('ServerFailure'),
+          RestaurantsLoading(),
+          RestaurantsError('ServerFailure'),
         ]);
   });
 }

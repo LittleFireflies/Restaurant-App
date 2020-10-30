@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restaurant_app/common/styles.dart';
 import 'package:restaurant_app/domain/entities/restaurant.dart';
-import 'package:restaurant_app/presenter/pages/restaurant_detail_page.dart';
-import 'package:restaurant_app/presenter/cubit/restaurant_cubit.dart';
+import 'package:restaurant_app/presenter/pages/restaurant_detail/restaurant_detail_page.dart';
+import 'package:restaurant_app/presenter/pages/restaurant_list/cubit/restaurants_cubit.dart';
 
 class RestaurantListPage extends StatefulWidget {
   static const routeName = '/restaurant_list';
@@ -16,8 +16,8 @@ class _RestaurantListPageState extends State<RestaurantListPage> {
   @override
   void initState() {
     super.initState();
-    final cubit = context.bloc<RestaurantCubit>();
-    cubit.getRestaurant();
+    final cubit = context.bloc<RestaurantsCubit>();
+    cubit.getRestaurants();
   }
 
   @override
@@ -26,27 +26,28 @@ class _RestaurantListPageState extends State<RestaurantListPage> {
       appBar: AppBar(
         title: Text('Restaurant App'),
       ),
-      body: BlocBuilder<RestaurantCubit, RestaurantState>(
-          builder: (context, state) {
-        if (state is RestaurantInitial) {
-          return Text('Initial');
-        } else if (state is RestaurantLoading) {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        } else if (state is RestaurantLoaded) {
-          final restaurants = state.restaurants;
-          return ListView.builder(
-            itemCount: restaurants.length,
-            itemBuilder: (context, index) {
-              final restaurant = restaurants[index];
-              return RestaurantItem(restaurant);
-            },
-          );
-        } else {
-          return Text('Error');
-        }
-      }),
+      body: BlocBuilder<RestaurantsCubit, RestaurantsState>(
+        builder: (context, state) {
+          if (state is RestaurantsInitial) {
+            return Text('Initial');
+          } else if (state is RestaurantsLoading) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (state is RestaurantsLoaded) {
+            final restaurants = state.restaurants;
+            return ListView.builder(
+              itemCount: restaurants.length,
+              itemBuilder: (context, index) {
+                final restaurant = restaurants[index];
+                return RestaurantItem(restaurant);
+              },
+            );
+          } else {
+            return Text('Error');
+          }
+        },
+      ),
     );
   }
 }
@@ -60,7 +61,7 @@ class RestaurantItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () => Navigator.pushNamed(context, RestaurantDetailPage.routeName,
-          arguments: restaurant),
+          arguments: restaurant.id),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
         child: Row(

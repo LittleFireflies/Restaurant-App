@@ -3,23 +3,23 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restaurant_app/domain/entities/restaurant.dart';
 import 'package:restaurant_app/domain/usecases/get_restaurant_list.dart';
 
-part 'restaurant_state.dart';
+part 'restaurants_state.dart';
 
-class RestaurantCubit extends Cubit<RestaurantState> {
+class RestaurantsCubit extends Cubit<RestaurantsState> {
   final GetRestaurantList _getRestaurantList;
 
-  RestaurantCubit(this._getRestaurantList) : super(RestaurantInitial());
+  RestaurantsCubit(this._getRestaurantList) : super(RestaurantsInitial());
 
-  Future<void> getRestaurant() async {
-    emit(RestaurantLoading());
+  Future<void> getRestaurants() async {
+    emit(RestaurantsLoading());
     final restaurantsOrFailure = await _getRestaurantList.execute();
 
     restaurantsOrFailure.fold(
       (failure) {
-        emit(RestaurantError(failure.toString()));
+        emit(RestaurantsError(failure.toString()));
       },
       (restaurants) {
-        emit(RestaurantLoaded(restaurants));
+        emit(RestaurantsLoaded(restaurants));
       },
     );
   }

@@ -15,11 +15,11 @@ class RestaurantLoading extends RestaurantState {
 }
 
 class RestaurantLoaded extends RestaurantState {
-  final List<Restaurant> restaurants;
-  const RestaurantLoaded(this.restaurants);
+  final Restaurant restaurant;
+  const RestaurantLoaded(this.restaurant);
 
   @override
-  List<Object> get props => [restaurants];
+  List<Object> get props => [restaurant];
 }
 
 class RestaurantError extends RestaurantState {
