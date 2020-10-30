@@ -29,8 +29,14 @@ class RestaurantRemoteDataSourceImpl implements RestaurantRemoteDataSource {
   }
 
   @override
-  Future<RestaurantDetailResponse> getRestaurantDetail(String id) {
-    // TODO: implement getRestaurantDetail
-    throw UnimplementedError();
+  Future<RestaurantDetailResponse> getRestaurantDetail(String id) async {
+    final response =
+        await client.get('https://restaurant-api.dicoding.dev/detail/$id');
+
+    if (response.statusCode == 200) {
+      return RestaurantDetailResponse.fromMap(json.decode(response.body));
+    } else {
+      throw ServerException();
+    }
   }
 }
