@@ -6,7 +6,7 @@ import 'package:restaurant_app/common/failures.dart';
 import 'package:restaurant_app/common/network_info.dart';
 import 'package:restaurant_app/data/datasources/restaurant_remote_data_source.dart';
 import 'package:restaurant_app/data/repositories/restaurant_repository_impl.dart';
-import 'package:restaurant_app/domain/entities/restaurant.dart';
+import 'package:restaurant_app/domain/entities/restaurant_list_response.dart';
 
 class MockRemoteDataSource extends Mock implements RestaurantRemoteDataSource {}
 
@@ -27,7 +27,7 @@ void main() {
   });
 
   group('getRestaurantList', () {
-    final testRestaurantResponse = RestaurantResponse(restaurants: []);
+    final testRestaurantResponse = RestaurantListResponse(restaurants: []);
 
     test('should check if the device is online', () {
       // arrange

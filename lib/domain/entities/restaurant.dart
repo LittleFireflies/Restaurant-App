@@ -1,39 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:restaurant_app/domain/entities/menus.dart';
 
-class RestaurantResponse extends Equatable {
-  RestaurantResponse({
-    this.error,
-    this.message,
-    this.count,
-    this.restaurants,
-  });
-
-  bool error;
-  String message;
-  int count;
-  List<Restaurant> restaurants;
-
-  factory RestaurantResponse.fromMap(Map<String, dynamic> json) =>
-      RestaurantResponse(
-        error: json["error"],
-        message: json["message"],
-        count: json["count"],
-        restaurants: List<Restaurant>.from(
-            json["restaurants"].map((x) => Restaurant.fromMap(x))),
-      );
-
-  Map<String, dynamic> toMap() => {
-        "error": error,
-        "message": message,
-        "count": count,
-        "restaurants": List<dynamic>.from(restaurants.map((x) => x.toMap())),
-      };
-
-  @override
-  List<Object> get props => [error, message, count, restaurants];
-}
-
 class Restaurant extends Equatable {
   Restaurant({
     this.id,

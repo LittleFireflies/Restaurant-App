@@ -2,11 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:restaurant_app/common/exception.dart';
-import 'package:restaurant_app/domain/entities/restaurant.dart';
+import 'package:restaurant_app/domain/entities/restaurant_list_response.dart';
 import 'package:http/http.dart' as http;
 
 abstract class RestaurantRemoteDataSource {
-  Future<RestaurantResponse> getRestaurantList();
+  Future<RestaurantListResponse> getRestaurantList();
 }
 
 class RestaurantRemoteDataSourceImpl implements RestaurantRemoteDataSource {
@@ -15,12 +15,12 @@ class RestaurantRemoteDataSourceImpl implements RestaurantRemoteDataSource {
   RestaurantRemoteDataSourceImpl({@required this.client});
 
   @override
-  Future<RestaurantResponse> getRestaurantList() async {
+  Future<RestaurantListResponse> getRestaurantList() async {
     final response =
         await client.get('https://restaurant-api.dicoding.dev/list');
 
     if (response.statusCode == 200) {
-      return RestaurantResponse.fromMap(json.decode(response.body));
+      return RestaurantListResponse.fromMap(json.decode(response.body));
     } else {
       throw ServerException();
     }
