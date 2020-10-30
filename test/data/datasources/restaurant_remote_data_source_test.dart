@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:mockito/mockito.dart';
 import 'package:restaurant_app/common/exception.dart';
 import 'package:restaurant_app/data/datasources/restaurant_remote_data_source.dart';
-import 'package:restaurant_app/domain/entities/restaurant.dart';
+import 'package:restaurant_app/domain/entities/restaurant_list_response.dart';
 
 import '../../json_reader.dart';
 
@@ -31,7 +31,7 @@ void main() {
       verify(mockHttpClient.get('https://restaurant-api.dicoding.dev/list'));
     });
 
-    final testRestaurantResponse = RestaurantResponse.fromMap(
+    final testRestaurantResponse = RestaurantListResponse.fromMap(
         json.decode(readJson('restaurant_list.json')));
 
     test('should return RestaurantResponse when the response code is 200',
