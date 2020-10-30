@@ -72,4 +72,6 @@ void main() {
       });
     });
   });
+
+  group('getRestaurantDetail', () {});
 }

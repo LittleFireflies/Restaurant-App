@@ -27,4 +27,10 @@ class RestaurantRepositoryImpl implements RestaurantRepository {
       return Left(ServerFailure());
     }
   }
+
+  @override
+  Future<Either<Failure, Restaurant>> getRestaurantDetail(String id) {
+    // TODO: implement getRestaurantDetail
+    throw UnimplementedError();
+  }
 }
