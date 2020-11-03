@@ -6,6 +6,7 @@ import 'package:restaurant_app/common/exception.dart';
 import 'package:restaurant_app/common/failures.dart';
 import 'package:restaurant_app/common/network_info.dart';
 import 'package:restaurant_app/data/datasources/restaurant_remote_data_source.dart';
+import 'package:restaurant_app/domain/entities/customer_review.dart';
 import 'package:restaurant_app/domain/entities/restaurant.dart';
 import 'package:restaurant_app/domain/repositories/restaurant_repository.dart';
 
@@ -20,7 +21,8 @@ class RestaurantRepositoryImpl implements RestaurantRepository {
 
   @override
   Future<Either<Failure, List<Restaurant>>> getRestaurantList() async {
-    networkInfo.isConnected;
+    final isConnected = await networkInfo.isConnected;
+    print(isConnected);
     try {
       final remoteRestaurantResponse =
           await remoteDataSource.getRestaurantList();
@@ -39,6 +41,19 @@ class RestaurantRepositoryImpl implements RestaurantRepository {
       final remoteRestaurantResponse =
           await remoteDataSource.getRestaurantDetail(id);
       return Right(remoteRestaurantResponse.restaurant);
+    } on ServerException {
+      return Left(ServerFailure());
+    } on SocketException {
+      return Left(ConnectionFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> addReview(CustomerReview review) async {
+    networkInfo.isConnected;
+    try {
+      final response = await remoteDataSource.postReview(review);
+      return Right(response.message);
     } on ServerException {
       return Left(ServerFailure());
     } on SocketException {
