@@ -93,7 +93,7 @@ void main() {
       when(mockHttpClient.get(any))
           .thenAnswer((_) async => http.Response('Something went wrong', 404));
       // act
-      final call = await dataSource.getRestaurantDetail;
+      final call = dataSource.getRestaurantDetail;
       // assert
       expect(() => call(testId), throwsA(isInstanceOf<ServerException>()));
     });

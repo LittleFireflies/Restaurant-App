@@ -1,49 +1,22 @@
-import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:http/http.dart';
-import 'package:restaurant_app/common/network_info.dart';
 import 'package:restaurant_app/common/styles.dart';
-import 'package:restaurant_app/data/datasources/restaurant_remote_data_source.dart';
-import 'package:restaurant_app/data/repositories/restaurant_repository_impl.dart';
-import 'package:restaurant_app/domain/usecases/get_restaurant_detail.dart';
-import 'package:restaurant_app/domain/usecases/get_restaurant_list.dart';
 import 'package:restaurant_app/presenter/pages/restaurant_detail/cubit/restaurant_cubit.dart';
 import 'package:restaurant_app/presenter/pages/restaurant_detail/restaurant_detail_page.dart';
 import 'package:restaurant_app/presenter/pages/restaurant_list/cubit/restaurants_cubit.dart';
 import 'package:restaurant_app/presenter/pages/restaurant_list/restaurant_list_page.dart';
+import 'package:restaurant_app/injection_container.dart' as injector;
 
 void main() {
+  injector.init();
   runApp(
     MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => RestaurantsCubit(
-            GetRestaurantList(
-              RestaurantRepositoryImpl(
-                remoteDataSource: RestaurantRemoteDataSourceImpl(
-                  client: Client(),
-                ),
-                networkInfo: NetworkInfoImpl(
-                  DataConnectionChecker(),
-                ),
-              ),
-            ),
-          ),
+          create: (_) => injector.locator<RestaurantsCubit>(),
         ),
         BlocProvider(
-          create: (context) => RestaurantCubit(
-            GetRestaurantDetail(
-              RestaurantRepositoryImpl(
-                remoteDataSource: RestaurantRemoteDataSourceImpl(
-                  client: Client(),
-                ),
-                networkInfo: NetworkInfoImpl(
-                  DataConnectionChecker(),
-                ),
-              ),
-            ),
-          ),
+          create: (_) => injector.locator<RestaurantCubit>(),
         ),
       ],
       child: MyApp(),
