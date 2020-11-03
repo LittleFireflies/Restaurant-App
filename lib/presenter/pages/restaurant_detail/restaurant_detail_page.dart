@@ -4,6 +4,7 @@ import 'package:restaurant_app/common/styles.dart';
 import 'package:restaurant_app/domain/entities/restaurant.dart';
 import 'package:restaurant_app/presenter/pages/menu_sheet.dart';
 import 'package:restaurant_app/presenter/pages/restaurant_detail/cubit/restaurant_cubit.dart';
+import 'package:restaurant_app/presenter/pages/review_sheet.dart';
 
 class RestaurantDetailPage extends StatefulWidget {
   static const routeName = '/restaurant_detail';
@@ -55,6 +56,42 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
               Container(
                 child: Row(
                   children: [
+                    InkWell(
+                      onTap: () {
+                        showModalBottomSheet(
+                          context: context,
+                          isScrollControlled: true,
+                          backgroundColor: Colors.transparent,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.vertical(
+                              top: const Radius.circular(16),
+                            ),
+                          ),
+                          builder: (context) {
+                            return Container(
+                              padding: EdgeInsets.only(
+                                top: (MediaQuery.of(
+                                            _scaffoldKey.currentState.context)
+                                        .viewPadding
+                                        .top +
+                                    64),
+                              ),
+                              child: ReviewSheet(restaurant.customerReviews),
+                            );
+                          },
+                        );
+                      },
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.comment,
+                            color: secondaryColor,
+                          ),
+                          Text('${restaurant.customerReviews.length} Reviews'),
+                        ],
+                      ),
+                    ),
+                    SizedBox(width: 8),
                     Icon(
                       Icons.star,
                       color: secondaryColor,
