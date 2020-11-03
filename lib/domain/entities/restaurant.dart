@@ -1,32 +1,7 @@
-import 'dart:convert';
+import 'package:equatable/equatable.dart';
+import 'package:restaurant_app/domain/entities/menus.dart';
 
-import 'package:restaurant_app/model/menus.dart';
-
-RestaurantResponse restaurantResponseFromMap(String str) =>
-    RestaurantResponse.fromMap(json.decode(str));
-
-String restaurantResponseToMap(RestaurantResponse data) =>
-    json.encode(data.toMap());
-
-class RestaurantResponse {
-  RestaurantResponse({
-    this.restaurants,
-  });
-
-  List<Restaurant> restaurants;
-
-  factory RestaurantResponse.fromMap(Map<String, dynamic> json) =>
-      RestaurantResponse(
-        restaurants: List<Restaurant>.from(
-            json["restaurants"].map((x) => Restaurant.fromMap(x))),
-      );
-
-  Map<String, dynamic> toMap() => {
-        "restaurants": List<dynamic>.from(restaurants.map((x) => x.toMap())),
-      };
-}
-
-class Restaurant {
+class Restaurant extends Equatable {
   Restaurant({
     this.id,
     this.name,
@@ -64,4 +39,8 @@ class Restaurant {
         "rating": rating,
         "menus": menus.toMap(),
       };
+
+  @override
+  List<Object> get props =>
+      [id, name, description, pictureId, city, rating, menus];
 }
