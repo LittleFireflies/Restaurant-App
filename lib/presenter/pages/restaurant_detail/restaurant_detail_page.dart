@@ -114,65 +114,74 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<RestaurantCubit, RestaurantState>(
-      builder: (context, state) {
-        if (state is RestaurantInitial) {
-          return Text('initial');
-        } else if (state is RestaurantLoading) {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        } else if (state is RestaurantLoaded) {
-          final restaurant = state.restaurant;
-          return Scaffold(
-            key: _scaffoldKey,
-            body: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Stack(
-                    children: [
-                      Hero(
-                        tag: 'image_${restaurant.name}',
-                        child: Image.network(
-                            'https://restaurant-api.dicoding.dev/images/medium/${restaurant.pictureId}'),
-                      ),
-                      SafeArea(
-                        child: IconButton(
-                          icon: Icon(
-                            Icons.arrow_back,
-                            color: secondaryColor,
-                          ),
-                          onPressed: () => Navigator.pop(context),
+    return Container(
+      color: scaffoldColor,
+      child: BlocConsumer<RestaurantCubit, RestaurantState>(
+        builder: (context, state) {
+          if (state is RestaurantInitial) {
+            return Text('initial');
+          } else if (state is RestaurantLoading) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (state is RestaurantLoaded) {
+            final restaurant = state.restaurant;
+            return Scaffold(
+              key: _scaffoldKey,
+              body: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Stack(
+                      children: [
+                        Hero(
+                          tag: 'image_${restaurant.name}',
+                          child: Image.network(
+                              'https://restaurant-api.dicoding.dev/images/medium/${restaurant.pictureId}'),
                         ),
-                      )
-                    ],
-                  ),
-                  SizedBox(height: 8),
-                  Stack(
-                    alignment: AlignmentDirectional.bottomEnd,
-                    children: [
-                      _buildRestaurantInfo(context, restaurant),
-                    ],
-                  ),
-                ],
+                        SafeArea(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: CircleAvatar(
+                              backgroundColor: scaffoldColor,
+                              child: IconButton(
+                                icon: Icon(
+                                  Icons.arrow_back,
+                                  color: secondaryColor,
+                                ),
+                                onPressed: () => Navigator.pop(context),
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    SizedBox(height: 8),
+                    Stack(
+                      alignment: AlignmentDirectional.bottomEnd,
+                      children: [
+                        _buildRestaurantInfo(context, restaurant),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
-            bottomNavigationBar: _buildMenuButton(context, restaurant),
-          );
-        } else {
-          return Text('Error');
-        }
-      },
-      listener: (context, state) {
-        if (state is RestaurantError) {
-          Scaffold.of(context).showSnackBar(
-            SnackBar(
-              content: Text(state.message),
-            ),
-          );
-        }
-      },
+              bottomNavigationBar: _buildMenuButton(context, restaurant),
+            );
+          } else {
+            return Text('Error');
+          }
+        },
+        listener: (context, state) {
+          if (state is RestaurantError) {
+            Scaffold.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.message),
+              ),
+            );
+          }
+        },
+      ),
     );
   }
 }
