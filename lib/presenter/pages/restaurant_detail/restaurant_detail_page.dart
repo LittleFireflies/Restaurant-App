@@ -4,7 +4,7 @@ import 'package:restaurant_app/common/styles.dart';
 import 'package:restaurant_app/domain/entities/restaurant.dart';
 import 'package:restaurant_app/presenter/pages/menu_sheet.dart';
 import 'package:restaurant_app/presenter/pages/restaurant_detail/cubit/restaurant_cubit.dart';
-import 'package:restaurant_app/presenter/pages/review_sheet.dart';
+import 'package:restaurant_app/presenter/pages/review_sheet/review_sheet.dart';
 
 class RestaurantDetailPage extends StatefulWidget {
   static const routeName = '/restaurant_detail';
