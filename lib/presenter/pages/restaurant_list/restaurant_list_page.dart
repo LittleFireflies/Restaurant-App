@@ -37,6 +37,7 @@ class _RestaurantListPageState extends State<RestaurantListPage> {
           } else if (state is RestaurantsLoaded) {
             final restaurants = state.restaurants;
             return ListView.builder(
+              padding: EdgeInsets.only(top: 16),
               itemCount: restaurants.length,
               itemBuilder: (context, index) {
                 final restaurant = restaurants[index];
@@ -74,6 +75,7 @@ class RestaurantItem extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(8),
@@ -87,7 +89,7 @@ class RestaurantItem extends StatelessWidget {
             ),
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -118,6 +120,11 @@ class RestaurantItem extends StatelessWidget {
                               .textTheme
                               .subtitle2
                               .copyWith(color: primaryColor500),
+                        ),
+                        Icon(
+                          Icons.star,
+                          color: secondaryColor,
+                          size: 14,
                         ),
                       ],
                     ),
