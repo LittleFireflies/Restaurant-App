@@ -42,6 +42,16 @@ void main() {
     });
   }
 
+  void runTestOffline(Function body) {
+    group('device is offline', () {
+      setUp(() {
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
+      });
+
+      body();
+    });
+  }
+
   group('getRestaurantList', () {
     final testRestaurantResponse = RestaurantListResponse(restaurants: []);
 
@@ -84,16 +94,18 @@ void main() {
       });
     });
 
-    test('should return connection failure when the device is offline',
-        () async {
-      // arrange
-      when(mockRemoteDataSource.getRestaurantList())
-          .thenThrow(SocketException("Can't connect to the network"));
-      // act
-      final result = await repository.getRestaurantList();
-      // assert
-      verify(mockRemoteDataSource.getRestaurantList());
-      expect(result, equals(Left(ConnectionFailure())));
+    runTestOffline(() {
+      test('should return connection failure when the device is offline',
+          () async {
+        // arrange
+        when(mockRemoteDataSource.getRestaurantList())
+            .thenThrow(SocketException("Can't connect to the network"));
+        // act
+        final result = await repository.getRestaurantList();
+        // assert
+        verify(mockRemoteDataSource.getRestaurantList());
+        expect(result, equals(Left(ConnectionFailure())));
+      });
     });
   });
 
@@ -140,16 +152,18 @@ void main() {
       });
     });
 
-    test('should return connection failure when the device is offline',
-        () async {
-      // arrange
-      when(mockRemoteDataSource.getRestaurantDetail(testRestaurantId))
-          .thenThrow(SocketException("Can't connect to the network"));
-      // act
-      final result = await repository.getRestaurantDetail(testRestaurantId);
-      // assert
-      verify(mockRemoteDataSource.getRestaurantDetail(testRestaurantId));
-      expect(result, equals(Left(ConnectionFailure())));
+    runTestOffline(() {
+      test('should return connection failure when the device is offline',
+          () async {
+        // arrange
+        when(mockRemoteDataSource.getRestaurantDetail(testRestaurantId))
+            .thenThrow(SocketException("Can't connect to the network"));
+        // act
+        final result = await repository.getRestaurantDetail(testRestaurantId);
+        // assert
+        verify(mockRemoteDataSource.getRestaurantDetail(testRestaurantId));
+        expect(result, equals(Left(ConnectionFailure())));
+      });
     });
   });
 
@@ -201,7 +215,9 @@ void main() {
         verify(mockRemoteDataSource.postReview(tReview));
         expect(result, equals(Left(ServerFailure())));
       });
+    });
 
+    runTestOffline(() {
       test('should return connection failure when the device is offline',
           () async {
         // arrange
