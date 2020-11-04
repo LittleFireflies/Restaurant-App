@@ -44,8 +44,17 @@ class RestaurantRemoteDataSourceImpl implements RestaurantRemoteDataSource {
   }
 
   @override
-  Future<AddReviewResponse> postReview(CustomerReview review) {
-    // TODO: implement postReview
-    throw UnimplementedError();
+  Future<AddReviewResponse> postReview(CustomerReview review) async {
+    final response = await client.post(
+      'https://restaurant-api.dicoding.dev/review',
+      headers: {'Content-Type': 'application/json'},
+      body: review,
+    );
+
+    if (response.statusCode == 200) {
+      return AddReviewResponse.fromMap(json.decode(response.body));
+    } else {
+      throw ServerException();
+    }
   }
 }

@@ -1,6 +1,6 @@
-import 'package:restaurant_app/domain/entities/customer_review.dart';
+import 'package:equatable/equatable.dart';
 
-class AddReviewResponse {
+class AddReviewResponse extends Equatable {
   final bool error;
   final String message;
 
@@ -19,4 +19,7 @@ class AddReviewResponse {
         'error': error,
         'message': message,
       };
+
+  @override
+  List<Object> get props => [error, message];
 }
